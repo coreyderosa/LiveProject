@@ -1,13 +1,12 @@
              
 //Section of the code I worked on for the Bugs With Friends story.
-			 <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="glyphicon glyphicon-chevron-right"></span>
                 </a>
                 <div class="photo-actions-container">
+                    @if(Model.UserID == User.Identity.GetUserId()) { 
                     @Html.ActionLink("Make Profile Picture", "MakeProfilePicture", "Images", new { id = fileID, type = "profile" }, new { @class = "btn-image-action" })
                     @Html.ActionLink("Make Cover Photo", "MakeProfilePicture", "Images", new { id = @fileID, type = "cover" }, new { @class = "btn-image-action" })
                     @Html.ActionLink("Make About Picture", "MakeProfilePicture", "Images", new { id = @fileID, type = "about" }, new { @class = "btn-image-action" })
-                    @if (Model.UserID == User.Identity.GetUserId())
-                    {
-                        @Html.ActionLink("Delete", "DeleteConfirmed", "Images", new { id = fileID }, new { @class = "btn-image-action" })
+                    @Html.ActionLink("Delete", "DeleteConfirmed", "Images", new { id = fileID }, new { @class = "btn-image-action" })
                     }
                 </div>
