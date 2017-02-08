@@ -1,82 +1,111 @@
 <div class="container-fluid">
     <div class="row">
-        <div id="CreateReview" class="col-md-12">
-           
+        <div id="CreateReview" class="col-sm-12">
             @using (Html.BeginForm("Create", "Reviews", FormMethod.Post, new { @id = "create-review-form", @class = "text-center", enctype = "multipart/form-data" }))
             {
                     <!-- Stars (hidden) -->
                     @Html.HiddenFor(model => model.StarRating)
                     <!--Stars-->
-                    
                     <!-- STARS CONTAINER -->
-               
                     <div id="stars-container" class="row text-center">
-                         @*Gray star for "zero" rating*@
+                        @*Gray star for "zero" rating*@
                         <h3 id="starMessage">No rating given yet.</h3>
                     </div>
-                    <!-- Autocomplete -->
+                    <!--MAP-->
                     <div class="form-group">
-                        <!--Location Field-->
-                        <div class="col-md-6 locationField">
-                            @{
-                                if (Model == null)
-                                {
-                                    @Html.Editor("Search", new { htmlAttributes = new { @class = "form-control", id = "autocomplete", onFocus = "geolocate()", text = @Model.PlaceName, } })
-                                }
-                            }
-                        </div>
-                        <!--Image Field-->
-                        <div class="col-md-6 text-left" id="imageField">
-                            <input type="file" id="postPhoto" class="input-file" name="Image" accept="image/*" data-multiple-caption="{count} Photos " />
-                            <label class="text-center" for="postPhoto"><span>Photo </span><i class="fa fa-picture-o"></i></label>
-                        </div>
-                    </div>
-                    <!--Headline-->
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control unset-max-width", id="text", placeholder = "Headline", autocomplete = "off" } })
-                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <!--Main Body-->
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control unset-max-width disable-resize", id="text", placeholder = "Tell the world..." } })
-                            @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <!--Dropdowns-->
-                    
-                    <!-- Added id tags for all dropdowns to allow separate styling -->
-                    <div class="row">
-                        <!--"I Am" Dropdown-->
-                        <div class="col-xs-4 col-sm-3" id= "dropdown">
-                            @Html.EnumDropDownListFor(model => model.ResidentType, "I am...", htmlAttributes: new { @class = "form-control", @id="btn"})
-                            @Html.ValidationMessageFor(model => model.ResidentType, "", new { @class = "text-danger" })
-                        </div>
-                        <!--"Come Here For" Dropdown-->
-                        <div class="col-xs-4 col-sm-3" id= "dropdown">
-                            @Html.EnumDropDownListFor(model => model.SubjectType, "Come here for...", htmlAttributes: new { @class = "form-control", @id = "btn" })
-                            @Html.ValidationMessageFor(model => model.SubjectType, "", new { @class = "text-danger" })
-                        </div>
-                        @{
-                            var listCostRating = new List<Object> {
-                new { Text = "Free", Value=0},
-                new { Text = "$$$$$", Value=5}
-                };
-                        }
-                        <!--"Cost" Dropdown-->
-                        <div class="col-xs-4 col-sm-3" id= "dropdown">
-                            @Html.DropDownListFor(model => model.CostRating, new SelectList(listCostRating, "Value", "Text"), "Price Range", new { @class = "form-control", @id = "btn" })
-                            @Html.ValidationMessageFor(model => model.CostRating, "", new { @class = "text-danger" })
-                        </div>
-                        @*<div class="form-group">
-                                @Html.LabelFor(model => model.StarRating, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                </div>
+                        <div id="map-area" style="padding-bottom: 20px" class="col-sm-8">
+                            <!--This input element is linked to CreateReviewsMap.js-Corey D-->
+                            <input id="pac-inputReview" class="controls" type="text" placeholder="Enter a location" size="50" style="width:276px">
+                            <div id="map-distance-tab">
+                                <select id="Radius" class="radiusDDL">
+                                    <option>1</option>
+                                    <option>5</option>
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option selected="selected">50</option>
+                                    <option>100</option>
+                                    <option>300</option>
+                                </select>
+                                <!--Distance field within map-->
+                                <p>
+                                    <input type="radio" value="miles" name="distance" checked />Miles
+                                </p>
+                                <p>
+                                    <input type="radio" value="kilometers" name="distance" />km
+                                </p>
+                                <i class="fa fa-chevron-right"></i>
+                            </div>
+                            <div id="map"></div>
+                            <!--Not too sure what this is so I commented it out. -Corey D-->
+                            @*<div id="right-panel">
+                                <h3>Results</h3>
+                                <i id="chevron-up" class="fa fa-chevron-up" onclick="HideResults(this, 'chevron-down')"></i>
+                                <i id="chevron-down" class="fa fa-chevron-down" onclick="HideResults(this, 'chevron-up')"></i>
+                                <ul id="places"></ul>
                             </div>*@
-                        <div class="col-xs-2 col-xs-offset-4 col-sm-3">
-                            <input type="submit" value="Create" class="btn btn-default" id="create-review-btn" />
+                            <!-- Autocomplete -->
+                            @*<div class="form-group">*@
+                            <!--Location Field-->
+                            <!--Commented out since the Map has a search bar within it-Corey D-->
+                            @*<div class="col-md-6 locationField">
+                                    @{
+                                        if (Model == null)
+                                        {
+                                            @Html.Editor("Search", new { htmlAttributes = new { @class = "form-control", id = "autocomplete", onFocus = "geolocate()", text = @Model.PlaceName, } })
+                                        }
+                                    }
+                               </div>*@
+                        </div>
+                        <!--Start of text fields and dropdowns-->
+                        <div class="row form-group">
+                            <!--Image Field-->
+                            <div class="col-sm-4 text-left" id="imageField">
+                                <input type="file" id="postPhoto" class="input-file" name="Image" accept="image/*" data-multiple-caption="{count} Photos " />
+                                <label class="text-center" for="postPhoto"><span>Add a photo...</span><i class="fa fa-picture-o"></i></label>
+                            </div>
+                            <!--Headline-->
+                            <div class="col-sm-4">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control unset-max-width", id = "text", placeholder = "Headline", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                            <!--Main Body-->
+                            <div class="col-sm-4">
+                                @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control unset-max-width disable-resize", style = "height: 240px", id = "text", placeholder = "Tell the world..." } })
+                                @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                            </div>
+                            <!--Dropdowns-->
+                            <!-- Added id tags for all dropdowns to allow separate styling-->
+                            <!--"I am a..." Dropdown-->
+                            <div class="col-sm-4" id="dropdown">
+                                @Html.EnumDropDownListFor(model => model.ResidentType, htmlAttributes: new { @class = "form-control", @id = "btn" })
+                                @Html.ValidationMessageFor(model => model.ResidentType, "", new { @class = "text-danger" })
+                            </div>
+                            <!--"Come here for..." Dropdown-->
+                            <div class="col-sm-4" id="dropdown">
+                                @Html.EnumDropDownListFor(model => model.SubjectType, htmlAttributes: new { @class = "form-control", @id = "btn" })
+                                @Html.ValidationMessageFor(model => model.SubjectType, "", new { @class = "text-danger" })
+                            </div>
+                            <!--"Cost" Dropdown-->
+                                @{
+                                    var listCostRating = new List<Object> {
+                                        new { Text = "Free", Value=0},
+                                        new { Text = "$$$$$", Value=5}
+                                        };
+                                }
+                            <div class="col-sm-4" id="dropdown">
+                                @Html.DropDownListFor(model => model.CostRating, new SelectList(listCostRating, "Value", "Text"), "Price Range", new { @class = "form-control", @id = "btn" })
+                                @Html.ValidationMessageFor(model => model.CostRating, "", new { @class = "text-danger" })
+                            </div>
+                            <!--Not sure what this does so I commented it out-Corey D-->
+                            @*<div class="form-group">
+                                    @Html.LabelFor(model => model.StarRating, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                    </div>
+                              </div>*@
+                            <!--Create (submit) button-->
+                            <div class="col-sm-4" style="max-width: 310px;"><!--Added max-width on here cuz without it the Create button is misaligned on large screens- Corey D-->
+                                <input type="submit" value="Create" class="btn btn-default" id="create-review-btn" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -84,21 +113,33 @@
         </div>
     </div>
 </div>
+@* End of HTML layout *@
+@* Start of script section *@
 <div>
+    @*This script has the Google Map API key and is required for the map to work correctly. *@
+    @*Sometimes you will get an error message in the Browser Console saying "You have exceeded your daily request quaota for this API."*@
+    @*Swap between these 2 API keys below when one API runs out.-Corey D *@
+   
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY&libraries=places&callback=initMap" async defer></script>*@
+    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY&libraries=places&callback=initMap" async defer></script>
+    @*ORIGINAL API URLs:*@
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY&libraries=places&callback=initAutocomplete" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY&libraries=places&callback=initMap" async defer></script>*@
+    
+    @* These scripts call out to the JavaScript files located in the Scripts/Custom folder. They are needed to run this page. -Corey D*@
+    <script src="~/Scripts/Custom/starHover.js"></script>
+    <script src="~/scripts/custom/SearchBar.js"></script>
+    <script src="~/Scripts/Custom/CreateReviewsMap.js"></script>
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }
     @section autocomplete {
         <script src="/Scripts/Custom/GoogleAutoComplete.js"></script>
     }
-    <!--ORIGINAL API URL:
-    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY&libraries=places&callback=initAutocomplete" async defer></script>
-    -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY&libraries=places&callback=initAutocomplete" async defer></script>
-    <script src="~/Scripts/Custom/starHover.js"></script>
    
     <script>
         var inputs = document.querySelectorAll('.input-file');
             });
         });
     </script>
+</div>
