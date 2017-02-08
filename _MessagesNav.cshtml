@@ -1,6 +1,6 @@
 @using Microsoft.AspNet.Identity
-<li id="messages-nav-icon" class="dropdown">
-     <a class="dropdown-toggle">
-        <i class="fa fa-envelope fa-2x"></i>
-     </a>
-    @if (Model.Messages.Count() != 0)
+<li id="messages-nav-icon" rel="toggle" role="button" class="dropdown"> @*Messages envelope icon is controlled using bootstrap.js dropdown- Corey D*@
+     <a class="dropdown-toggle" data-toggle="dropdown" role="button" > @*The Messages envelope icon is always on the nav bar- Corey D*@
+            <i class="fa fa-envelope fa-2x"></i>
+         </a>
+        @if (Model.Messages.Count() != 0)

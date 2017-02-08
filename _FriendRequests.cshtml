@@ -1,8 +1,8 @@
 @model IEnumerable<Bewander.ViewModels.RelationshipViewModel>
 @if (Model.Count() != 0)
 {
-<li id="friend-request-icon" class="dropdown">
-    <a class="dropdown-toggle">
+<li id="friend-request-icon" rel="toggle" role="button" class="dropdown"> @*Friend request icon is controlled using bootstrap.js dropdown- Corey D*@
+    <a class="dropdown-toggle" data-toggle="dropdown" role="button"> @*The friend request icon displays only when friend request is pending- Corey D*@
         <i class="fa fa-user-plus fa-2x"></i>
     </a>
         <div id="friend-request-notification">@Model.Count()</div>

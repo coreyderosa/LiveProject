@@ -1,53 +1,62 @@
     @RenderSection("profilePage", false)
     <script src="~/Scripts/Custom/GoogleAnalytics.js"></script>
     <script>
-	$(document).ready(function(){
-		var MsgDn = false;
-		var ReqDn = false;
-		var FrnDn =false
-		var LogDn = false;
-		$(".fa-envelope").click (function(){
-			$(".dropdown-menu").slideUp();
-			ReqDn = false;
-			FrnDn = false;
-			LogDn = false;
-			if (!MsgDn){
-				$("#message-list").slideDown();
-				MsgDn = true;
-			}
-			else MsgDn=false;
-			});
-		$(".fa-user-plus").click (function(){
-			$(".dropdown-menu").slideUp();
-			MsgDn = false;
-			FrnDn = false;
-			LogDn = false;
-			if (!ReqDn){
-				$("#friend-request-list").slideDown();
-				ReqDn = true;
-			}
-			else ReqDn=false;
-			});
-		$(".fa-group").click (function(){
-			$(".dropdown-menu").slideUp();
-			MsgDn = false;
-			ReqDn = false;
-			LogDn = false;
-			if (!FrnDn){
-				$("#navbar-friend-list").slideDown();
-				FrnDn = true;
-			}
-			else FrnDn=false;
-		});
-		$("#login-icon").click (function(){
-			$(".dropdown-menu").slideUp();
-			MsgDn = false;
-			ReqDn = false;
-			FrnDn = false;
-			if (!LogDn){
-				$(".login-dropdown").slideDown();
-				LogDn = true;
-			}
-			else LogDn=false;
-		});
-	});
+        //Commenting out jQuery funcions below that controlled the message envelope, friend request, friend list and Login icons in the nav bar
+        //The click, slideUp and slideDown jQuery functions below restrict the user to click the respective icon to display the menu
+        //and to hide the menu.  If the menu is displayed and the user clicks elsewhere on the page the menu does not hide.
+        //Bootstrap is much better for toggling the menu.  In the following files the icon elements possess the bootstrap calls:
+        //MessageNav.cshtml, _FriendRequest.cshtml, FriendList.cshtml.
+        //-CoreyD
+	//$(document).ready(function(){
+	//	var MsgDn = false;
+	//	var ReqDn = false;
+	//	var FrnDn =false
+	//	var LogDn = false;
+		//$(".fa-envelope").click (function(){
+		//	$(".dropdown-menu").slideUp();
+		//	ReqDn = false;
+		//	FrnDn = false;
+		//	LogDn = false;
+		//	if (!MsgDn){
+		//		$("#message-list").slideDown();
+		//		MsgDn = true;
+		//	}
+		//	else MsgDn=false;
+		//	});
+		//$(".fa-user-plus").click (function(){
+		//	$(".dropdown-menu").slideUp();
+		//	//MsgDn = false;
+		//	FrnDn = false;
+		//	LogDn = false;
+		//	if (!ReqDn){
+		//		$("#friend-request-list").slideDown();
+		//		ReqDn = true;
+		//	}
+		//	else ReqDn=false;
+		//	});
+		//$(".fa-group").click (function(){
+		//	$(".dropdown-menu").slideUp();
+		//	//MsgDn = false;
+		//	ReqDn = false;
+		//	LogDn = false;
+		//	if (!FrnDn){
+		//		$("#navbar-friend-list").slideDown();
+		//		FrnDn = true;
+		//	}
+		//	else FrnDn=false;
+		//});
+		//$("#login-icon").click (function(){
+		//	$(".dropdown-menu").slideUp();
+		//	//MsgDn = false;
+		//	ReqDn = false;
+		//	FrnDn = false;
+		//	if (!LogDn){
+		//		$(".login-dropdown").slideDown();
+		//		LogDn = true;
+		//	}
+		//	else LogDn=false;
+		//});
+	//});
+    </script>
+</head>
+<body>
